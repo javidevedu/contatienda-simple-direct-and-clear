@@ -1,73 +1,124 @@
-# Welcome to your Lovable project
+# ContaTienda - Sistema de Gestión Contable
 
-## Project info
+Sistema moderno de gestión contable para tiendas de barrio, con sincronización en tiempo real y despliegue fácil en Vercel.
 
-**URL**: https://lovable.dev/projects/551408d9-1b4c-40a6-b6c6-dab2c0dbc8ed
+## 🚀 Características
 
-## How can I edit this code?
+- ✅ **Autenticación simple** con usuarios predefinidos
+- 📊 **Dashboard interactivo** con gráficos y resumen
+- 💰 **Registro de Ventas** con historial completo
+- 📉 **Gestión de Egresos** para control de gastos
+- 👥 **Control de Deudas** con estados (pendiente/pagado)
+- 🔄 **Sincronización en tiempo real** entre dispositivos
+- 📱 **Diseño responsive** y moderno
+- ☁️ **Base de datos en la nube** con Lovable Cloud
 
-There are several ways of editing your application.
+## 🔐 Credenciales de Acceso
 
-**Use Lovable**
+- Usuario: `u123` | Contraseña: `123`
+- Usuario: `u1234` | Contraseña: `1234`
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/551408d9-1b4c-40a6-b6c6-dab2c0dbc8ed) and start prompting.
+## 🛠️ Tecnologías Utilizadas
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React 18 + TypeScript + Vite
+- **UI**: Tailwind CSS + shadcn/ui
+- **Backend**: Lovable Cloud (Supabase)
+- **Gráficos**: Recharts
+- **Base de datos**: PostgreSQL (en la nube)
 
-**Use your preferred IDE**
+## 📦 Estructura de la Base de Datos
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Tabla: ventas
+- `id` (UUID): Identificador único
+- `monto` (DECIMAL): Monto de la venta
+- `fecha` (TIMESTAMP): Fecha de la venta
+- `notas` (TEXT): Notas opcionales
+- `created_at` (TIMESTAMP): Fecha de creación
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Tabla: egresos
+- `id` (UUID): Identificador único
+- `monto` (DECIMAL): Monto del egreso
+- `fecha` (TIMESTAMP): Fecha del egreso
+- `descripcion` (TEXT): Descripción del gasto
+- `created_at` (TIMESTAMP): Fecha de creación
 
-Follow these steps:
+### Tabla: deudas
+- `id` (UUID): Identificador único
+- `comprador` (TEXT): Nombre del comprador
+- `monto` (DECIMAL): Monto de la deuda
+- `fecha` (TIMESTAMP): Fecha de la deuda
+- `estado` (TEXT): Estado (pendiente/pagado)
+- `created_at` (TIMESTAMP): Fecha de creación
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🚀 Despliegue en Vercel
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. Conecta tu repositorio a Vercel
+2. Configura las variables de entorno (automáticas con Lovable)
+3. Despliega con un click
+4. ¡Listo! Tu app está en producción
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 💻 Desarrollo Local
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+# Instalar dependencias
+npm install
+
+# Ejecutar en desarrollo
 npm run dev
+
+# Construir para producción
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+## 📱 Funcionalidades por Módulo
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Dashboard
+- Resumen de totales (ventas, egresos, deudas, balance)
+- Gráfico de barras con últimos 6 meses
+- Gráfico circular de distribución
+- Botón de recarga manual
 
-**Use GitHub Codespaces**
+### Ventas
+- Formulario de nueva venta (monto, fecha, notas)
+- Tabla con historial completo
+- Eliminación de registros
+- Actualización en tiempo real
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Egresos
+- Formulario de nuevo egreso (monto, fecha, descripción)
+- Tabla con historial completo
+- Eliminación de registros
+- Actualización en tiempo real
 
-## What technologies are used for this project?
+### Deudas
+- Formulario de nueva deuda (comprador, monto, fecha)
+- Tabla de deudas pendientes
+- Tabla de deudas pagadas
+- Cambio de estado con un click
+- Eliminación de registros
 
-This project is built with:
+## 🎨 Diseño
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+La aplicación utiliza un sistema de diseño moderno con:
+- Colores principales: Verde esmeralda (#3ECFA2) y Azul profesional
+- Sidebar lateral con navegación clara
+- Tarjetas con sombras suaves
+- Animaciones fluidas
+- Iconos de Lucide React
 
-## How can I deploy this project?
+## 🔒 Seguridad
 
-Simply open [Lovable](https://lovable.dev/projects/551408d9-1b4c-40a6-b6c6-dab2c0dbc8ed) and click on Share -> Publish.
+- Autenticación requerida para acceder
+- Validación de formularios
+- Row Level Security (RLS) habilitado
+- Datos protegidos en la nube
 
-## Can I connect a custom domain to my Lovable project?
+## 📞 Soporte
 
-Yes, you can!
+Para más información sobre Lovable Cloud:
+- [Documentación](https://docs.lovable.dev/features/cloud)
+- [Comunidad Discord](https://discord.com/channels/1119885301872070706/1280461670979993613)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Desarrollado con ❤️ usando Lovable
