@@ -23,9 +23,12 @@ const Login = () => {
     setLoading(true);
 
     setTimeout(() => {
-      if (USUARIOS[usuario as keyof typeof USUARIOS] === contrasena) {
+      const usuarioTrim = usuario.trim();
+      const contrasenaTrim = contrasena.trim();
+      
+      if (USUARIOS[usuarioTrim as keyof typeof USUARIOS] === contrasenaTrim) {
         sessionStorage.setItem("authenticated", "true");
-        sessionStorage.setItem("usuario", usuario);
+        sessionStorage.setItem("usuario", usuarioTrim);
         toast.success("¡Bienvenido a ContaTienda!");
         navigate("/dashboard");
       } else {
