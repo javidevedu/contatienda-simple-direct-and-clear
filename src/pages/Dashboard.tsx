@@ -59,9 +59,9 @@ const Dashboard = () => {
   const getMonthlyData = () => {
     const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
     const currentMonth = new Date().getMonth();
-    const last6Months = [];
+    const last12Months = [];
 
-    for (let i = 5; i >= 0; i--) {
+    for (let i = 11; i >= 0; i--) {
       const monthIndex = (currentMonth - i + 12) % 12;
       const month = months[monthIndex];
       
@@ -75,14 +75,14 @@ const Dashboard = () => {
         return fecha.getMonth() === monthIndex;
       }).reduce((sum, e) => sum + parseFloat(e.monto || 0), 0);
 
-      last6Months.push({
+      last12Months.push({
         mes: month,
         ventas: ventasMes,
         egresos: egresosMes,
       });
     }
 
-    return last6Months;
+    return last12Months;
   };
 
   const pieData = [
@@ -281,7 +281,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle>Ventas vs Egresos (Últimos 6 meses)</CardTitle>
+                <CardTitle>Ventas vs Egresos (Últimos 12 meses)</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -300,7 +300,7 @@ const Dashboard = () => {
 
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle>Distribución de Ingresos y Gastos</CardTitle>
+                <CardTitle>Distribución de Ingresos y Gastos (Últimos 12 meses)</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
