@@ -336,7 +336,15 @@ const Dashboard = () => {
                 <CardTitle>Distribución de Ingresos y Gastos (Últimos 12 meses)</CardTitle>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
+                <div className="mb-4">
+                  <p className={`text-2xl font-bold ${balance >= 0 ? "text-primary" : "text-destructive"}`}>
+                    Balance: ${balance.toFixed(2)}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {balance >= 0 ? "Positivo ✓" : "Negativo ✗"}
+                  </p>
+                </div>
+                <ResponsiveContainer width="100%" height={220}>
                   <PieChart>
                     <Pie
                       data={pieData}
@@ -344,7 +352,7 @@ const Dashboard = () => {
                       cy="50%"
                       labelLine={false}
                       label={(entry) => `${entry.name}: $${entry.value.toFixed(0)}`}
-                      outerRadius={100}
+                      outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
                     >
