@@ -120,6 +120,17 @@ const Dashboard = () => {
     return dailyData;
   };
 
+  const getDailyTotals = () => {
+    const data = getDailyData();
+    const totalVentas = data.reduce((sum, d) => sum + d.ventas, 0);
+    const totalEgresos = data.reduce((sum, d) => sum + d.egresos, 0);
+    return {
+      ventas: totalVentas,
+      egresos: totalEgresos,
+      balance: totalVentas - totalEgresos
+    };
+  };
+
   // Datos para distribución por horas del día
   const getHourlyData = () => {
     const hourlyData = [];
@@ -152,6 +163,17 @@ const Dashboard = () => {
     return hourlyData;
   };
 
+  const getHourlyTotals = () => {
+    const data = getHourlyData();
+    const totalVentas = data.reduce((sum, d) => sum + d.ventas, 0);
+    const totalEgresos = data.reduce((sum, d) => sum + d.egresos, 0);
+    return {
+      ventas: totalVentas,
+      egresos: totalEgresos,
+      balance: totalVentas - totalEgresos
+    };
+  };
+
   // Datos para distribución por días de la semana
   const getWeeklyData = () => {
     const days = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
@@ -177,6 +199,17 @@ const Dashboard = () => {
 
     // Reordenar para que empiece en Lunes
     return [...weeklyData.slice(1), weeklyData[0]];
+  };
+
+  const getWeeklyTotals = () => {
+    const data = getWeeklyData();
+    const totalVentas = data.reduce((sum, d) => sum + d.ventas, 0);
+    const totalEgresos = data.reduce((sum, d) => sum + d.egresos, 0);
+    return {
+      ventas: totalVentas,
+      egresos: totalEgresos,
+      balance: totalVentas - totalEgresos
+    };
   };
 
   if (loading) {
@@ -326,7 +359,7 @@ const Dashboard = () => {
             </Card>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="shadow-md">
               <CardHeader>
                 <CardTitle>Distribución mensual (días)</CardTitle>
@@ -348,6 +381,45 @@ const Dashboard = () => {
 
             <Card className="shadow-md">
               <CardHeader>
+                <CardTitle>Distribución mensual - Balance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className={`text-2xl font-bold ${getDailyTotals().balance >= 0 ? "text-primary" : "text-destructive"}`}>
+                    Balance: ${getDailyTotals().balance.toFixed(2)}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {getDailyTotals().balance >= 0 ? "Positivo ✓" : "Negativo ✗"}
+                  </p>
+                </div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Ventas", value: getDailyTotals().ventas, color: "hsl(var(--primary))" },
+                        { name: "Egresos", value: getDailyTotals().egresos, color: "hsl(var(--destructive))" },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={(entry) => `${entry.name}: $${entry.value.toFixed(0)}`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      <Cell fill="hsl(var(--primary))" />
+                      <Cell fill="hsl(var(--destructive))" />
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className="shadow-md">
+              <CardHeader>
                 <CardTitle>Distribución diaria (24h)</CardTitle>
               </CardHeader>
               <CardContent>
@@ -367,6 +439,45 @@ const Dashboard = () => {
 
             <Card className="shadow-md">
               <CardHeader>
+                <CardTitle>Distribución diaria - Balance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className={`text-2xl font-bold ${getHourlyTotals().balance >= 0 ? "text-primary" : "text-destructive"}`}>
+                    Balance: ${getHourlyTotals().balance.toFixed(2)}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {getHourlyTotals().balance >= 0 ? "Positivo ✓" : "Negativo ✗"}
+                  </p>
+                </div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Ventas", value: getHourlyTotals().ventas, color: "hsl(var(--primary))" },
+                        { name: "Egresos", value: getHourlyTotals().egresos, color: "hsl(var(--destructive))" },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={(entry) => `${entry.name}: $${entry.value.toFixed(0)}`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      <Cell fill="hsl(var(--primary))" />
+                      <Cell fill="hsl(var(--destructive))" />
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className="shadow-md">
+              <CardHeader>
                 <CardTitle>Distribución semanal (Lun-Dom)</CardTitle>
               </CardHeader>
               <CardContent>
@@ -380,6 +491,43 @@ const Dashboard = () => {
                     <Bar dataKey="ventas" fill="hsl(var(--primary))" name="Ventas" />
                     <Bar dataKey="egresos" fill="hsl(var(--destructive))" name="Egresos" />
                   </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-md">
+              <CardHeader>
+                <CardTitle>Distribución semanal - Balance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className={`text-2xl font-bold ${getWeeklyTotals().balance >= 0 ? "text-primary" : "text-destructive"}`}>
+                    Balance: ${getWeeklyTotals().balance.toFixed(2)}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {getWeeklyTotals().balance >= 0 ? "Positivo ✓" : "Negativo ✗"}
+                  </p>
+                </div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Ventas", value: getWeeklyTotals().ventas, color: "hsl(var(--primary))" },
+                        { name: "Egresos", value: getWeeklyTotals().egresos, color: "hsl(var(--destructive))" },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={(entry) => `${entry.name}: $${entry.value.toFixed(0)}`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      <Cell fill="hsl(var(--primary))" />
+                      <Cell fill="hsl(var(--destructive))" />
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
