@@ -15,15 +15,15 @@ const Sidebar = ({ currentPage }: SidebarProps) => {
   ];
 
   return (
-    <aside className="w-64 bg-sidebar border-r shadow-lg flex flex-col">
-      <div className="p-6 border-b border-sidebar-border">
+    <aside className="w-64 glass-card border-r border-white/10 flex flex-col ios-shadow-sm">
+      <div className="p-6 border-b border-white/10">
         <div className="flex items-center gap-3">
-          <div className="bg-sidebar-accent rounded-lg p-2">
-            <Store className="w-6 h-6 text-sidebar-foreground" />
+          <div className="bg-primary/20 rounded-2xl p-2.5 ios-shadow-sm">
+            <Store className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h2 className="font-bold text-lg text-sidebar-foreground">ContaTienda</h2>
-            <p className="text-xs text-sidebar-foreground/80">Gestión Contable</p>
+            <h2 className="font-bold text-xl text-foreground">ContaTienda</h2>
+            <p className="text-xs text-foreground/60">Gestión Contable</p>
           </div>
         </div>
       </div>
@@ -36,15 +36,15 @@ const Sidebar = ({ currentPage }: SidebarProps) => {
               key={link.to}
               to={link.to}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
-                "hover:bg-sidebar-accent",
+                "flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all",
+                "hover:bg-white/10",
                 isActive
-                  ? "bg-sidebar-accent text-sidebar-foreground font-medium"
-                  : "text-sidebar-foreground/80"
+                  ? "bg-primary/20 text-primary font-semibold ios-shadow-sm"
+                  : "text-foreground/70 hover:text-foreground"
               )}
             >
               <Icon className="w-5 h-5" />
-              <span>{link.label}</span>
+              <span className="text-sm">{link.label}</span>
             </NavLink>
           );
         })}
