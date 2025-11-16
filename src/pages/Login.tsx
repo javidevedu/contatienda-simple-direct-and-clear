@@ -39,21 +39,21 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-secondary/10 p-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className="space-y-3 text-center">
-          <div className="mx-auto bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center">
-            <Store className="w-8 h-8 text-primary" />
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md ios-shadow">
+        <CardHeader className="space-y-4 text-center pb-6">
+          <div className="mx-auto bg-primary/20 w-20 h-20 rounded-3xl flex items-center justify-center ios-shadow-sm">
+            <Store className="w-10 h-10 text-primary" />
           </div>
-          <CardTitle className="text-3xl font-bold">ContaTienda</CardTitle>
-          <CardDescription className="text-base">
-            Sistema de Gestión Contable para Tiendas de Barrio
+          <CardTitle className="text-4xl font-bold tracking-tight">ContaTienda</CardTitle>
+          <CardDescription className="text-base text-foreground/70">
+            Sistema de Gestión Contable
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+        <CardContent className="px-8 pb-8">
+          <form onSubmit={handleLogin} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="usuario">Usuario</Label>
+              <Label htmlFor="usuario" className="text-sm font-semibold">Usuario</Label>
               <Input
                 id="usuario"
                 type="text"
@@ -61,11 +61,11 @@ const Login = () => {
                 value={usuario}
                 onChange={(e) => setUsuario(e.target.value)}
                 required
-                className="transition-all"
+                className="h-12 rounded-xl glass-card border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="contrasena">Contraseña</Label>
+              <Label htmlFor="contrasena" className="text-sm font-semibold">Contraseña</Label>
               <Input
                 id="contrasena"
                 type="password"
@@ -73,24 +73,24 @@ const Login = () => {
                 value={contrasena}
                 onChange={(e) => setContrasena(e.target.value)}
                 required
-                className="transition-all"
+                className="h-12 rounded-xl glass-card border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50 transition-all"
               />
             </div>
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 transition-all"
+              className="w-full h-12 text-base font-semibold"
               disabled={loading}
             >
               {loading ? "Ingresando..." : "Ingresar"}
             </Button>
           </form>
-          <div className="mt-6 p-4 bg-muted rounded-lg">
-            <p className="text-sm text-muted-foreground text-center mb-2">
-              <strong>Usuarios de prueba:</strong>
+          <div className="mt-6 p-5 glass-card rounded-xl">
+            <p className="text-sm font-semibold text-foreground/80 text-center mb-3">
+              Usuarios de prueba
             </p>
-            <div className="text-xs text-muted-foreground space-y-1">
-              <p className="text-center">• u123 / 123</p>
-              <p className="text-center">• u1234 / 1234</p>
+            <div className="text-sm text-foreground/60 space-y-2">
+              <p className="text-center font-mono">u123 / 123</p>
+              <p className="text-center font-mono">u1234 / 1234</p>
             </div>
           </div>
         </CardContent>

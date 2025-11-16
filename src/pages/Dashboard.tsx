@@ -249,62 +249,62 @@ const Dashboard = () => {
         </header>
 
         <main className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Total Ventas</CardTitle>
-                <TrendingUp className="w-4 h-4 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <Card className="hover:scale-105 transition-transform duration-300">
+              <CardHeader className="flex flex-row items-center justify-between pb-3">
+                <CardTitle className="text-sm font-semibold text-foreground/80">Total Ventas</CardTitle>
+                <TrendingUp className="w-5 h-5 text-primary" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-primary">
+                <div className="text-3xl font-bold text-primary">
                   ${totalVentas.toFixed(2)}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-foreground/50 mt-2">
                   {ventas.length} registros
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Total Egresos</CardTitle>
-                <TrendingDown className="w-4 h-4 text-destructive" />
+            <Card className="hover:scale-105 transition-transform duration-300">
+              <CardHeader className="flex flex-row items-center justify-between pb-3">
+                <CardTitle className="text-sm font-semibold text-foreground/80">Total Egresos</CardTitle>
+                <TrendingDown className="w-5 h-5 text-destructive" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-destructive">
+                <div className="text-3xl font-bold text-destructive">
                   ${totalEgresos.toFixed(2)}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-foreground/50 mt-2">
                   {egresos.length} registros
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Deudas Pendientes</CardTitle>
-                <Users className="w-4 h-4 text-warning" />
+            <Card className="hover:scale-105 transition-transform duration-300">
+              <CardHeader className="flex flex-row items-center justify-between pb-3">
+                <CardTitle className="text-sm font-semibold text-foreground/80">Deudas Pendientes</CardTitle>
+                <Users className="w-5 h-5 text-warning" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-warning">
+                <div className="text-3xl font-bold text-warning">
                   ${totalDeudas.toFixed(2)}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-foreground/50 mt-2">
                   {deudas.filter(d => d.estado === "pendiente").length} pendientes
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Balance</CardTitle>
-                <DollarSign className="w-4 h-4 text-secondary" />
+            <Card className="hover:scale-105 transition-transform duration-300">
+              <CardHeader className="flex flex-row items-center justify-between pb-3">
+                <CardTitle className="text-sm font-semibold text-foreground/80">Balance</CardTitle>
+                <DollarSign className="w-5 h-5 text-success" />
               </CardHeader>
               <CardContent>
-                <div className={`text-2xl font-bold ${balance >= 0 ? "text-primary" : "text-destructive"}`}>
+                <div className={`text-3xl font-bold ${balance >= 0 ? "text-success" : "text-destructive"}`}>
                   ${balance.toFixed(2)}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-foreground/50 mt-2">
                   Ventas - Egresos
                 </p>
               </CardContent>
