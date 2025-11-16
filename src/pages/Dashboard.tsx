@@ -90,6 +90,95 @@ const Dashboard = () => {
     { name: "Egresos", value: totalEgresos, color: "hsl(var(--destructive))" },
   ];
 
+  // Datos para distribución por días del mes
+  const getDailyData = () => {
+    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+    const dailyData = [];
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const ventasDia = ventas.filter(v => {
+        const fecha = new Date(v.fecha);
+        return fecha.getDate() === day && 
+               fecha.getMonth() === new Date().getMonth() &&
+               fecha.getFullYear() === new Date().getFullYear();
+      }).reduce((sum, v) => sum + parseFloat(v.monto || 0), 0);
+
+      const egresosDia = egresos.filter(e => {
+        const fecha = new Date(e.fecha);
+        return fecha.getDate() === day && 
+               fecha.getMonth() === new Date().getMonth() &&
+               fecha.getFullYear() === new Date().getFullYear();
+      }).reduce((sum, e) => sum + parseFloat(e.monto || 0), 0);
+
+      dailyData.push({
+        dia: day,
+        ventas: ventasDia,
+        egresos: egresosDia,
+      });
+    }
+
+    return dailyData;
+  };
+
+  // Datos para distribución por horas del día
+  const getHourlyData = () => {
+    const hourlyData = [];
+    const today = new Date();
+
+    for (let hour = 0; hour < 24; hour++) {
+      const ventasHora = ventas.filter(v => {
+        const fecha = new Date(v.fecha);
+        return fecha.getHours() === hour &&
+               fecha.getDate() === today.getDate() &&
+               fecha.getMonth() === today.getMonth() &&
+               fecha.getFullYear() === today.getFullYear();
+      }).reduce((sum, v) => sum + parseFloat(v.monto || 0), 0);
+
+      const egresosHora = egresos.filter(e => {
+        const fecha = new Date(e.fecha);
+        return fecha.getHours() === hour &&
+               fecha.getDate() === today.getDate() &&
+               fecha.getMonth() === today.getMonth() &&
+               fecha.getFullYear() === today.getFullYear();
+      }).reduce((sum, e) => sum + parseFloat(e.monto || 0), 0);
+
+      hourlyData.push({
+        hora: `${hour}:00`,
+        ventas: ventasHora,
+        egresos: egresosHora,
+      });
+    }
+
+    return hourlyData;
+  };
+
+  // Datos para distribución por días de la semana
+  const getWeeklyData = () => {
+    const days = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+    const weeklyData = [];
+
+    for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+      const ventasDia = ventas.filter(v => {
+        const fecha = new Date(v.fecha);
+        return fecha.getDay() === dayIndex;
+      }).reduce((sum, v) => sum + parseFloat(v.monto || 0), 0);
+
+      const egresosDia = egresos.filter(e => {
+        const fecha = new Date(e.fecha);
+        return fecha.getDay() === dayIndex;
+      }).reduce((sum, e) => sum + parseFloat(e.monto || 0), 0);
+
+      weeklyData.push({
+        dia: days[dayIndex],
+        ventas: ventasDia,
+        egresos: egresosDia,
+      });
+    }
+
+    // Reordenar para que empiece en Lunes
+    return [...weeklyData.slice(1), weeklyData[0]];
+  };
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -232,6 +321,65 @@ const Dashboard = () => {
                     </Pie>
                     <Tooltip />
                   </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <Card className="shadow-md">
+              <CardHeader>
+                <CardTitle>Distribución mensual (días)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={getDailyData()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="dia" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="ventas" fill="hsl(var(--primary))" name="Ventas" />
+                    <Bar dataKey="egresos" fill="hsl(var(--destructive))" name="Egresos" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-md">
+              <CardHeader>
+                <CardTitle>Distribución diaria (24h)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={getHourlyData()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="hora" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="ventas" fill="hsl(var(--primary))" name="Ventas" />
+                    <Bar dataKey="egresos" fill="hsl(var(--destructive))" name="Egresos" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-md">
+              <CardHeader>
+                <CardTitle>Distribución semanal (Lun-Dom)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={getWeeklyData()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="dia" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="ventas" fill="hsl(var(--primary))" name="Ventas" />
+                    <Bar dataKey="egresos" fill="hsl(var(--destructive))" name="Egresos" />
+                  </BarChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
