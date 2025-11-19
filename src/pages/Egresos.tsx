@@ -112,21 +112,21 @@ const Egresos = () => {
     <div className="min-h-screen bg-muted/30">
       <Sidebar currentPage="egresos" />
       
-      <div className="container mx-auto px-6 py-6">
-        <header className="mb-6">
-          <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-6 py-4 md:py-6">
+        <header className="mb-4 md:mb-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Registro de Egresos</h1>
-              <p className="text-sm text-muted-foreground">Gestiona tus gastos</p>
+              <h1 className="text-xl md:text-2xl font-bold text-foreground">Registro de Egresos</h1>
+              <p className="text-xs md:text-sm text-muted-foreground">Gestiona tus gastos</p>
             </div>
             <div className="flex gap-2">
               <Button onClick={fetchEgresos} variant="outline" size="sm">
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Recargar
+                <RefreshCw className="w-4 h-4 md:mr-2" />
+                <span className="hidden md:inline">Recargar</span>
               </Button>
               <Button onClick={handleLogout} variant="destructive" size="sm">
-                <LogOut className="w-4 h-4 mr-2" />
-                Salir
+                <LogOut className="w-4 h-4 md:mr-2" />
+                <span className="hidden md:inline">Salir</span>
               </Button>
             </div>
           </div>
@@ -193,29 +193,59 @@ const Egresos = () => {
                   No hay egresos registrados
                 </p>
               ) : (
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Fecha</TableHead>
-                        <TableHead>Monto</TableHead>
-                        <TableHead>Descripción</TableHead>
-                        <TableHead className="text-right">Acciones</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {egresos.map((egreso) => (
-                        <TableRow key={egreso.id}>
-                          <TableCell>
-                            {new Date(egreso.fecha).toLocaleDateString()}
-                          </TableCell>
-                          <TableCell className="font-semibold text-destructive">
-                            ${parseFloat(egreso.monto).toFixed(2)}
-                          </TableCell>
-                          <TableCell className="max-w-xs truncate">
-                            {egreso.descripcion}
-                          </TableCell>
-                          <TableCell className="text-right">
+                <>
+                  {/* Vista de tabla para desktop */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Fecha</TableHead>
+                          <TableHead>Monto</TableHead>
+                          <TableHead>Descripción</TableHead>
+                          <TableHead className="text-right">Acciones</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {egresos.map((egreso) => (
+                          <TableRow key={egreso.id}>
+                            <TableCell>
+                              {new Date(egreso.fecha).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell className="font-semibold text-destructive">
+                              ${parseFloat(egreso.monto).toFixed(2)}
+                            </TableCell>
+                            <TableCell className="max-w-xs truncate">
+                              {egreso.descripcion}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => handleDelete(egreso.id)}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+
+                  {/* Vista de cards para móvil */}
+                  <div className="md:hidden space-y-3">
+                    {egresos.map((egreso) => (
+                      <Card key={egreso.id} className="glass-card ios-shadow-sm">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div className="flex-1">
+                              <p className="text-sm text-muted-foreground mb-1">
+                                {new Date(egreso.fecha).toLocaleDateString()}
+                              </p>
+                              <p className="text-2xl font-bold text-destructive">
+                                ${parseFloat(egreso.monto).toFixed(2)}
+                              </p>
+                            </div>
                             <Button
                               variant="destructive"
                               size="sm"
@@ -223,12 +253,15 @@ const Egresos = () => {
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+                          </div>
+                          <p className="text-sm text-foreground/70 mt-2">
+                            {egreso.descripcion}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>
