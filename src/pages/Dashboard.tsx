@@ -224,11 +224,12 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="min-h-screen bg-muted/30">
       <Sidebar currentPage="dashboard" />
-      <div className="flex-1 overflow-auto bg-muted/30">
-        <header className="sticky top-0 z-10 bg-background border-b shadow-sm">
-          <div className="flex items-center justify-between px-6 py-4">
+      
+      <div className="container mx-auto px-6 py-6">
+        <header className="mb-6">
+          <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
               <p className="text-sm text-muted-foreground">
@@ -248,7 +249,7 @@ const Dashboard = () => {
           </div>
         </header>
 
-        <main className="p-6 space-y-6">
+        <main className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             <Card className="hover:scale-105 transition-transform duration-300">
               <CardHeader className="flex flex-row items-center justify-between pb-3">
