@@ -130,21 +130,21 @@ const Deudas = () => {
     <div className="min-h-screen bg-muted/30">
       <Sidebar currentPage="deudas" />
       
-      <div className="container mx-auto px-6 py-6">
-        <header className="mb-6">
-          <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-6 py-4 md:py-6">
+        <header className="mb-4 md:mb-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Gestión de Deudas</h1>
-              <p className="text-sm text-muted-foreground">Controla cuentas pendientes</p>
+              <h1 className="text-xl md:text-2xl font-bold text-foreground">Gestión de Deudas</h1>
+              <p className="text-xs md:text-sm text-muted-foreground">Controla cuentas pendientes</p>
             </div>
             <div className="flex gap-2">
               <Button onClick={fetchDeudas} variant="outline" size="sm">
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Recargar
+                <RefreshCw className="w-4 h-4 md:mr-2" />
+                <span className="hidden md:inline">Recargar</span>
               </Button>
               <Button onClick={handleLogout} variant="destructive" size="sm">
-                <LogOut className="w-4 h-4 mr-2" />
-                Salir
+                <LogOut className="w-4 h-4 md:mr-2" />
+                <span className="hidden md:inline">Salir</span>
               </Button>
             </div>
           </div>
@@ -211,37 +211,82 @@ const Deudas = () => {
                   No hay deudas pendientes
                 </p>
               ) : (
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Comprador</TableHead>
-                        <TableHead>Monto</TableHead>
-                        <TableHead>Fecha</TableHead>
-                        <TableHead>Estado</TableHead>
-                        <TableHead className="text-right">Acciones</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {deudasPendientes.map((deuda) => (
-                        <TableRow key={deuda.id}>
-                          <TableCell className="font-medium">{deuda.comprador}</TableCell>
-                          <TableCell className="font-semibold text-warning">
-                            ${parseFloat(deuda.monto).toFixed(2)}
-                          </TableCell>
-                          <TableCell>
-                            {new Date(deuda.fecha).toLocaleDateString()}
-                          </TableCell>
-                          <TableCell>
+                <>
+                  {/* Vista de tabla para desktop */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Comprador</TableHead>
+                          <TableHead>Monto</TableHead>
+                          <TableHead>Fecha</TableHead>
+                          <TableHead>Estado</TableHead>
+                          <TableHead className="text-right">Acciones</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {deudasPendientes.map((deuda) => (
+                          <TableRow key={deuda.id}>
+                            <TableCell className="font-medium">{deuda.comprador}</TableCell>
+                            <TableCell className="font-semibold text-warning">
+                              ${parseFloat(deuda.monto).toFixed(2)}
+                            </TableCell>
+                            <TableCell>
+                              {new Date(deuda.fecha).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="secondary">Pendiente</Badge>
+                            </TableCell>
+                            <TableCell className="text-right space-x-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleToggleEstado(deuda.id, deuda.estado)}
+                              >
+                                <CheckCircle className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => handleDelete(deuda.id)}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+
+                  {/* Vista de cards para móvil */}
+                  <div className="md:hidden space-y-3">
+                    {deudasPendientes.map((deuda) => (
+                      <Card key={deuda.id} className="glass-card ios-shadow-sm">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div className="flex-1">
+                              <p className="text-lg font-bold text-foreground mb-1">
+                                {deuda.comprador}
+                              </p>
+                              <p className="text-2xl font-bold text-warning">
+                                ${parseFloat(deuda.monto).toFixed(2)}
+                              </p>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                {new Date(deuda.fecha).toLocaleDateString()}
+                              </p>
+                            </div>
                             <Badge variant="secondary">Pendiente</Badge>
-                          </TableCell>
-                          <TableCell className="text-right space-x-2">
+                          </div>
+                          <div className="flex gap-2 mt-3">
                             <Button
                               variant="outline"
                               size="sm"
+                              className="flex-1"
                               onClick={() => handleToggleEstado(deuda.id, deuda.estado)}
                             >
-                              <CheckCircle className="w-4 h-4" />
+                              <CheckCircle className="w-4 h-4 mr-2" />
+                              Marcar pagado
                             </Button>
                             <Button
                               variant="destructive"
@@ -250,12 +295,12 @@ const Deudas = () => {
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>
@@ -270,36 +315,81 @@ const Deudas = () => {
                   No hay deudas pagadas
                 </p>
               ) : (
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Comprador</TableHead>
-                        <TableHead>Monto</TableHead>
-                        <TableHead>Fecha</TableHead>
-                        <TableHead>Estado</TableHead>
-                        <TableHead className="text-right">Acciones</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {deudasPagadas.map((deuda) => (
-                        <TableRow key={deuda.id}>
-                          <TableCell className="font-medium">{deuda.comprador}</TableCell>
-                          <TableCell className="font-semibold text-primary">
-                            ${parseFloat(deuda.monto).toFixed(2)}
-                          </TableCell>
-                          <TableCell>
-                            {new Date(deuda.fecha).toLocaleDateString()}
-                          </TableCell>
-                          <TableCell>
-                            <Badge>Pagado</Badge>
-                          </TableCell>
-                          <TableCell className="text-right space-x-2">
+                <>
+                  {/* Vista de tabla para desktop */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Comprador</TableHead>
+                          <TableHead>Monto</TableHead>
+                          <TableHead>Fecha</TableHead>
+                          <TableHead>Estado</TableHead>
+                          <TableHead className="text-right">Acciones</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {deudasPagadas.map((deuda) => (
+                          <TableRow key={deuda.id}>
+                            <TableCell className="font-medium">{deuda.comprador}</TableCell>
+                            <TableCell className="font-semibold text-success">
+                              ${parseFloat(deuda.monto).toFixed(2)}
+                            </TableCell>
+                            <TableCell>
+                              {new Date(deuda.fecha).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="default">Pagado</Badge>
+                            </TableCell>
+                            <TableCell className="text-right space-x-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleToggleEstado(deuda.id, deuda.estado)}
+                              >
+                                <CheckCircle className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => handleDelete(deuda.id)}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+
+                  {/* Vista de cards para móvil */}
+                  <div className="md:hidden space-y-3">
+                    {deudasPagadas.map((deuda) => (
+                      <Card key={deuda.id} className="glass-card ios-shadow-sm">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div className="flex-1">
+                              <p className="text-lg font-bold text-foreground mb-1">
+                                {deuda.comprador}
+                              </p>
+                              <p className="text-2xl font-bold text-success">
+                                ${parseFloat(deuda.monto).toFixed(2)}
+                              </p>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                {new Date(deuda.fecha).toLocaleDateString()}
+                              </p>
+                            </div>
+                            <Badge variant="default">Pagado</Badge>
+                          </div>
+                          <div className="flex gap-2 mt-3">
                             <Button
                               variant="outline"
                               size="sm"
+                              className="flex-1"
                               onClick={() => handleToggleEstado(deuda.id, deuda.estado)}
                             >
+                              <CheckCircle className="w-4 h-4 mr-2" />
                               Marcar pendiente
                             </Button>
                             <Button
@@ -309,12 +399,12 @@ const Deudas = () => {
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>

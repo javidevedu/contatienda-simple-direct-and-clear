@@ -227,23 +227,23 @@ const Dashboard = () => {
     <div className="min-h-screen bg-muted/30">
       <Sidebar currentPage="dashboard" />
       
-      <div className="container mx-auto px-6 py-6">
-        <header className="mb-6">
-          <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-6 py-4 md:py-6">
+        <header className="mb-4 md:mb-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-              <p className="text-sm text-muted-foreground">
+              <h1 className="text-xl md:text-2xl font-bold text-foreground">Dashboard</h1>
+              <p className="text-xs md:text-sm text-muted-foreground">
                 Usuario: {sessionStorage.getItem("usuario")}
               </p>
             </div>
             <div className="flex gap-2">
               <Button onClick={fetchData} variant="outline" size="sm">
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Recargar
+                <RefreshCw className="w-4 h-4 md:mr-2" />
+                <span className="hidden md:inline">Recargar</span>
               </Button>
               <Button onClick={handleLogout} variant="destructive" size="sm">
-                <LogOut className="w-4 h-4 mr-2" />
-                Salir
+                <LogOut className="w-4 h-4 md:mr-2" />
+                <span className="hidden md:inline">Salir</span>
               </Button>
             </div>
           </div>
