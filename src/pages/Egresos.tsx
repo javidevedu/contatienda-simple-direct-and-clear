@@ -109,11 +109,12 @@ const Egresos = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="min-h-screen bg-muted/30">
       <Sidebar currentPage="egresos" />
-      <div className="flex-1 overflow-auto bg-muted/30">
-        <header className="sticky top-0 z-10 bg-background border-b shadow-sm">
-          <div className="flex items-center justify-between px-6 py-4">
+      
+      <div className="container mx-auto px-6 py-6">
+        <header className="mb-6">
+          <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-foreground">Registro de Egresos</h1>
               <p className="text-sm text-muted-foreground">Gestiona tus gastos</p>
@@ -131,7 +132,7 @@ const Egresos = () => {
           </div>
         </header>
 
-        <main className="p-6 space-y-6">
+        <main className="space-y-6">
           <Card className="shadow-md">
             <CardHeader>
               <CardTitle>Nuevo Egreso</CardTitle>

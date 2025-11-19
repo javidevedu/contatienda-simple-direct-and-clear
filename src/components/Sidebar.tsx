@@ -16,8 +16,8 @@ const Sidebar = ({ currentPage }: SidebarProps) => {
 
   return (
     <nav className="sticky top-0 z-50 glass-card border-b border-white/10 ios-shadow-sm backdrop-blur-xl">
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
+      <div className="w-full px-6">
+        <div className="flex flex-col items-center gap-4 py-4">
           <div className="flex items-center gap-3">
             <div className="bg-primary/20 rounded-2xl p-2.5 ios-shadow-sm">
               <Store className="w-6 h-6 text-primary" />
@@ -28,7 +28,7 @@ const Sidebar = ({ currentPage }: SidebarProps) => {
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-center gap-3 w-full max-w-4xl">
             {links.map((link) => {
               const Icon = link.icon;
               const isActive = currentPage === link.to.replace("/", "");
@@ -37,15 +37,15 @@ const Sidebar = ({ currentPage }: SidebarProps) => {
                   key={link.to}
                   to={link.to}
                   className={cn(
-                    "flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all",
+                    "flex items-center justify-center gap-2 px-8 py-3 rounded-xl transition-all flex-1",
                     "hover:bg-white/10",
                     isActive
                       ? "bg-primary/20 text-primary font-semibold ios-shadow-sm"
                       : "text-foreground/70 hover:text-foreground"
                   )}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="text-sm">{link.label}</span>
+                  <Icon className="w-5 h-5" />
+                  <span className="text-sm font-medium">{link.label}</span>
                 </NavLink>
               );
             })}
